@@ -3,6 +3,8 @@ import pizzabanner from "../../assets/pizzabanner.jpg";
 import hamburger from "../../assets/hamburger.jpg";
 import Menu from "../../components/Menu/Menu";
 import Description from "../../components/Description/Description";
+import ImagesHome from "../../components/Description/ImagesHome";
+import Footer from "./Footer";
 
 const Home = () => {
   return (
@@ -45,26 +47,21 @@ const Home = () => {
 
       <Description />
 
-      <footer className="bg-white shadow-md p-4 px-48">
-        <div className="flex  items-center text-gray-600 justify-between">
-          &copy; 2024 FastFood American. All rights reserved.
-          <div className="flex justify-center items-center text-gray-600">
-            <a
-              className="hover:border-red-500 hover:text-red-500 transition duration-300"
-              href="/"
-            >
-              Privacy Policy
-            </a>
-            <span className="mx-4">|</span>
-            <a
-              className="hover:border-red-500 hover:text-red-500 transition duration-300"
-              href="/"
-            >
-              Terms of Service
-            </a>
-          </div>
-        </div>
-      </footer>
+      <ImagesHome />
+
+      <div>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d177882.87201062537!2d15.799556471577874!3d45.84289547339543!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4765d692c902cc39%3A0x3a45249628fbc28a!2sZagreb!5e0!3m2!1shr!2shr!4v1729081039722!5m2!1shr!2shr"
+          width="100%"
+          height="350"
+          style={{ border: "0" }}
+          allowfullscreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+
+      <Footer />
     </>
   );
 };
