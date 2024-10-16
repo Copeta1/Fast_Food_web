@@ -7,12 +7,10 @@ const Navbar = () => {
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-4 py-2">
         <div className="flex justify-between items-center">
-          {/* Logo */}
           <a href="/" className="text-2xl font-bold text-red-400">
             FastFood American
           </a>
 
-          {/* Menu Links */}
           <nav className=" md:flex space-x-4 items-center">
             <a
               href="/"
@@ -47,7 +45,6 @@ const Navbar = () => {
             </a>
           </nav>
 
-          {/* Phone Number */}
           <div className="md:flex items-center space-x-1">
             <span className="text-lg text-gray-700">📞</span>
             <span className="text-lg font-medium text-gray-800">
@@ -55,7 +52,6 @@ const Navbar = () => {
             </span>
           </div>
 
-          {/* Login Button */}
           <div className=" md:block">
             <a href="/" className="btn bg-red-400 hover:bg-red-500 text-white">
               Login
