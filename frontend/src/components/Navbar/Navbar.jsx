@@ -1,6 +1,7 @@
 import { LuChefHat } from "react-icons/lu";
 import { RiContactsLine } from "react-icons/ri";
 import { IoImageOutline, IoPeopleOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -53,9 +54,12 @@ const Navbar = () => {
           </div>
 
           <div className=" md:block">
-            <a href="/" className="btn bg-red-400 hover:bg-red-500 text-white">
+            <Link
+              to="/login"
+              className="btn bg-red-400 hover:bg-red-500 text-white"
+            >
               Login
-            </a>
+            </Link>
           </div>
         </div>
       </div>
