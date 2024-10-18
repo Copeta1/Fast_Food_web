@@ -1,7 +1,19 @@
+import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { loading, login } = useLogin();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(email, password);
+  };
+
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
@@ -14,7 +26,7 @@ const Login = () => {
 
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md relative">
           <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -27,6 +39,8 @@ const Login = () => {
                 id="email"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-red-500"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mb-6">
@@ -41,6 +55,8 @@ const Login = () => {
                 id="password"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-red-500"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
@@ -57,8 +73,13 @@ const Login = () => {
               <button
                 type="submit"
                 className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                disabled={loading}
               >
-                Login
+                {loading ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Login"
+                )}
               </button>
             </div>
           </form>

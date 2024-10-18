@@ -4,7 +4,9 @@ const Footer = () => {
       <footer className="bg-gray-800">
         <div className="container mx-auto flex justify-between items-center py-4 px-32 text-white">
           <div>
-            <h1 className="text-3xl font-bold">FastFood American</h1>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-red-500 bg-clip-text text-transparent">
+              FastFood American
+            </h1>
             <div className="pt-4">
               <div>
                 <b>Address:</b> 123456 Zagreb
