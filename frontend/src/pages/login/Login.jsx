@@ -28,10 +28,7 @@ const Login = () => {
           <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-gray-700 font-medium mb-2"
-              >
+              <label className="block text-gray-700 font-medium mb-2">
                 Email
               </label>
               <input
@@ -44,10 +41,7 @@ const Login = () => {
               />
             </div>
             <div className="mb-6">
-              <label
-                htmlFor="password"
-                className="block text-gray-700 font-medium mb-2"
-              >
+              <label className="block text-gray-700 font-medium mb-2">
                 Password
               </label>
               <input

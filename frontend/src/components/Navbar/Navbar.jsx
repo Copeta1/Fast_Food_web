@@ -10,7 +10,6 @@ const Navbar = () => {
   const { authUser, setAuthUser } = useAuthContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Handle logout
   const handleLogout = () => {
     localStorage.removeItem("food-user");
     setAuthUser(null);
@@ -36,13 +35,13 @@ const Navbar = () => {
               MENU
             </a>
             <span className="text-gray-300">|</span>
-            <a
-              href="/"
+            <Link
+              to="/contactus"
               className="text-sm text-gray-700 hover:text-red-400  hover:shadow-red-400 transition duration-300 flex items-center"
             >
               <RiContactsLine className="text-2xl mr-2" />
               CONTACT US
-            </a>
+            </Link>
             <span className="text-gray-300">|</span>
             <a
               href="/"
@@ -70,25 +69,21 @@ const Navbar = () => {
 
           <div className="md:block">
             {authUser ? (
-              // If user is logged in, display avatar and dropdown
               <div className="relative inline-block text-left">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center space-x-2 bg-gray-200 p-2 rounded-full focus:outline-none"
                 >
-                  <img
-                    src={authUser.avatar || "/default-avatar.png"} // Use user's avatar if available, or a default one
-                    alt="User Avatar"
-                    className="w-8 h-8 rounded-full"
-                  />
+                  <div className="w-8 h-8 bg-gray-500 text-white rounded-full flex items-center justify-center font-bold">
+                    {authUser.firstName.charAt(0).toUpperCase()}
+                  </div>
                   <FiChevronDown className="text-gray-600" />
                 </button>
 
-                {/* Dropdown Menu */}
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
                     <Link
-                      to="/profile"
+                      to="/"
                       className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                     >
                       Profile
@@ -103,7 +98,6 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              // If user is not logged in, display login button
               <Link
                 to="/login"
                 className="btn bg-red-400 hover:bg-red-500 text-white"

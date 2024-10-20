@@ -1,6 +1,10 @@
 import Navbar from "../../components/Navbar/Navbar";
+
 import pizzabanner from "../../assets/pizzabanner.jpg";
 import hamburger from "../../assets/hamburger.jpg";
+import online from "../../assets/online.jpg";
+import muffin from "../../assets/muffin.jpg";
+
 import Menu from "../../components/Menu/Menu";
 import Description from "../../components/Description/Description";
 import ImagesHome from "../../components/Description/ImagesHome";
@@ -19,27 +23,51 @@ const Home = () => {
           className="w-full h-[400px] object-cover"
         />
       </div>
-      <div className="flex justify-center items-center w-full h-full p-4 space-x-4">
-        <div className="w-1/3 h-full p-5">
+      <div className="flex justify-center items-center w-full h-full p-4 space-x-4 relative">
+        <div className="relative w-1/3 h-full p-5">
           <img
             src={hamburger}
             alt="Hamburger"
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 flex flex-col justify-end items-center text-white pb-20">
+            <div className="bg-black bg-opacity-50 px-4 py-2 rounded-lg text-center">
+              <h1 className="text-4xl font-bold">Burger Lovers</h1>
+              <p className="text-lg mt-2">
+                We have burgers for all your needs.
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="w-1/3 h-full p-5">
+
+        <div className="relative w-1/3 h-full p-5">
           <img
-            src={hamburger}
-            alt="Hamburger"
-            className="w-auto h-auto object-cover"
-          />
-        </div>
-        <div className="w-1/3 h-full p-5">
-          <img
-            src={hamburger}
-            alt="Hamburger"
+            src={online}
+            alt="Order Online"
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 flex flex-col justify-end items-center text-white pb-20">
+            <div className="bg-black bg-opacity-50 px-4 py-2 rounded-lg text-center">
+              <h1 className="text-4xl font-bold">Order Online</h1>
+              <p className="text-lg mt-2">
+                Available every day from 9:00 - 23:00.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative w-1/3 h-full p-5">
+          <img
+            src={muffin}
+            alt="Muffins"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 flex flex-col justify-end items-center text-white pb-20">
+            <div className="bg-black bg-opacity-50 px-4 py-2 rounded-lg text-center">
+              <h1 className="text-4xl font-bold">Desserts Special</h1>
+              <p className="text-lg mt-2">Every Friday one dessert is 0.99€</p>
+            </div>
+          </div>
         </div>
       </div>
 
