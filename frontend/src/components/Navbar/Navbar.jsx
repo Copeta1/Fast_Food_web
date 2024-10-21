@@ -27,13 +27,13 @@ const Navbar = () => {
           </Link>
 
           <nav className=" md:flex space-x-4 items-center">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-sm text-gray-700 hover:text-red-400 hover:shadow-red-400 transition duration-300 flex items-center"
             >
               <LuChefHat className="text-2xl mr-2" />
-              MENU
-            </a>
+              HOME
+            </Link>
             <span className="text-gray-300">|</span>
             <Link
               to="/contactus"
@@ -43,21 +43,21 @@ const Navbar = () => {
               CONTACT US
             </Link>
             <span className="text-gray-300">|</span>
-            <a
-              href="/"
+            <Link
+              to="/imageGallery"
               className="text-sm text-gray-700 hover:text-red-400 hover:shadow-red-400 transition duration-300 flex items-center"
             >
               <IoImageOutline className="text-2xl mr-2" />
               IMAGE GALLERY
-            </a>
+            </Link>
             <span className="text-gray-300">|</span>
-            <a
-              href="/"
+            <Link
+              to="/aboutUs"
               className="text-sm text-gray-700 hover:text-red-400 hover:shadow-red-400 transition duration-300 flex items-center"
             >
               <IoPeopleOutline className="text-2xl mr-2" />
               ABOUT US
-            </a>
+            </Link>
           </nav>
 
           <div className="md:flex items-center space-x-1">
