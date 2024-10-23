@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import ImageGallery from "./pages/Gallery/ImageGallery";
 import AboutUs from "./pages/AboutUs/AboutUs";
+import Admin from "./pages/Admin/Admin";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/imageGallery" element={<ImageGallery />} />
         <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
       <Toaster />
     </div>
