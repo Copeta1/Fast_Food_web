@@ -5,7 +5,7 @@ import Orders from "./Orders";
 import Permissions from "./Permissions";
 
 const Admin = () => {
-  const [selectedMenu, setSelectedMenu] = useState("addDish");
+  const [selectedMenu, setSelectedMenu] = useState("manageDishes");
 
   const renderContent = () => {
     switch (selectedMenu) {
@@ -60,7 +60,7 @@ const Admin = () => {
                     : "bg-gray-800 hover:bg-gray-700"
                 }`}
               >
-                Permissions
+                Roles & Permissions
               </button>
             </li>
           </ul>
