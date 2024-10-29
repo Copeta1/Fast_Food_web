@@ -4,7 +4,8 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 export const signup = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, confirmPassword } = req.body;
+    const { firstName, lastName, email, password, confirmPassword, admin } =
+      req.body;
 
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords do not match" });
@@ -24,6 +25,7 @@ export const signup = async (req, res) => {
       lastName,
       email,
       password: hashedPassword,
+      admin,
     });
 
     if (newUser) {
@@ -79,5 +81,46 @@ export const logout = (req, res) => {
   } catch (error) {
     console.log("Error in logout controller", error.message);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getAuth = async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const updateUserRoleHandler = async (req, res) => {
+  const { userId } = req.params;
+  const { role, value } = req.body;
+
+  const validRoles = ["admin", "editor", "viewer"];
+  if (!validRoles.includes(role)) {
+    return res.status(400).json({ error: "Invalid role type" });
+  }
+  if (typeof value !== "boolean") {
+    return res.status(400).json({ error: "Value must be a boolean" });
+  }
+
+  try {
+    const update = { [role]: value };
+    const updatedUser = await User.findByIdAndUpdate(userId, update, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Role updated successfully", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating user role:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 };

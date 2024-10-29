@@ -1,7 +1,17 @@
 import express from "express";
-import { login, logout, signup } from "../controllers/auth.controller.js";
+import {
+  login,
+  logout,
+  signup,
+  getAuth,
+  updateUserRoleHandler,
+} from "../controllers/auth.controller.js";
 
 const router = express.Router();
+
+router.get("/", getAuth);
+
+router.patch("/:userId/role", updateUserRoleHandler);
 
 router.post("/signup", signup);
 

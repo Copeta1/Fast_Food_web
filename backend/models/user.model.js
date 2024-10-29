@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    viewer: {
+      type: Boolean,
+      default: true,
+    },
+    editor: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
