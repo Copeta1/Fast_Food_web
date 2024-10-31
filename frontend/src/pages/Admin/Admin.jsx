@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import ManageDishes from "./ManageDishes";
 import Orders from "./Orders";
 import Permissions from "./Permissions";
+import AddDishes from "./addDishes";
 
 const Admin = () => {
   const [selectedMenu, setSelectedMenu] = useState("manageDishes");
@@ -11,6 +12,8 @@ const Admin = () => {
     switch (selectedMenu) {
       case "manageDishes":
         return <ManageDishes />;
+      case "addDishes":
+        return <AddDishes />;
       case "orders":
         return <Orders />;
       case "permissions":
@@ -37,6 +40,18 @@ const Admin = () => {
                 }`}
               >
                 Manage Dishes
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setSelectedMenu("addDishes")}
+                className={`block w-full text-left p-2 rounded-lg ${
+                  selectedMenu === "addDishes"
+                    ? "bg-red-500"
+                    : "bg-gray-800 hover:bg-gray-700"
+                }`}
+              >
+                Add Dishes
               </button>
             </li>
             <li>

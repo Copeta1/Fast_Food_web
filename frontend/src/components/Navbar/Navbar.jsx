@@ -37,7 +37,7 @@ const Navbar = () => {
             <span className="text-gray-300">|</span>
             <Link
               to="/contactus"
-              className="text-sm text-gray-700 hover:text-red-400  hover:shadow-red-400 transition duration-300 flex items-center"
+              className="text-sm text-gray-700 hover:text-red-400 hover:shadow-red-400 transition duration-300 flex items-center"
             >
               <RiContactsLine className="text-2xl mr-2" />
               CONTACT US
@@ -82,13 +82,14 @@ const Navbar = () => {
 
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
-                    <Link
-                      to="/admin"
-                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                    >
-                      Admin
-                    </Link>
-                    <hr />
+                    {(authUser.admin || authUser.editor) && (
+                      <Link
+                        to="/admin"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                      >
+                        Admin
+                      </Link>
+                    )}
 
                     <Link
                       to="/"

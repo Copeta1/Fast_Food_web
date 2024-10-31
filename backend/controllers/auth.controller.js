@@ -11,9 +11,9 @@ export const signup = async (req, res) => {
       return res.status(400).json({ error: "Passwords do not match" });
     }
 
-    const user = await User.findOne({ email });
+    const userExists = await User.findOne({ email });
 
-    if (user) {
+    if (userExists) {
       return res.status(400).json({ error: "Email already exists" });
     }
 
@@ -38,12 +38,14 @@ export const signup = async (req, res) => {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
+        admin: newUser.admin,
+        editor: newUser.editor,
       });
     } else {
       res.status(400).json({ error: "Failed to create user" });
     }
   } catch (error) {
-    console.log("Error in signup controller", error.massage);
+    console.log("Error in signup controller", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -60,6 +62,7 @@ export const login = async (req, res) => {
     if (!user || !isPasswordCorrect) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
+
     generateTokenAndSetCookie(user._id, res);
 
     res.status(200).json({
@@ -67,6 +70,8 @@ export const login = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      admin: user.admin,
+      editor: user.editor,
     });
   } catch (error) {
     console.log("Error in login controller", error.message);
