@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useRef } from "react";
+import Flickity from "react-flickity-component";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import "flickity/css/flickity.css";
 
 const burgers = [
   {
@@ -34,127 +36,74 @@ const burgers = [
   },
 ];
 
-const Burgers = () => {
-  const [currentBurger, setCurrentBurger] = useState(1);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [direction, setDirection] = useState("right");
+const flickityOptions = {
+  initialIndex: 0,
+  wrapAround: true,
+  prevNextButtons: false,
+  pageDots: false,
+  cellAlign: "center",
+};
 
-  const handleNext = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setDirection("right");
-    setTimeout(() => {
-      setCurrentBurger((prev) => (prev + 1) % burgers.length);
-      setIsAnimating(false);
-    }, 300);
-  };
+const Burgers = () => {
+  const flickityRef = useRef(null);
 
   const handlePrev = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setDirection("left");
-    setTimeout(() => {
-      setCurrentBurger((prev) => (prev - 1 + burgers.length) % burgers.length);
-      setIsAnimating(false);
-    }, 300);
+    if (flickityRef.current) flickityRef.current.previous();
   };
 
-  const getBurgerIndex = (indexOffset) => {
-    return (currentBurger + indexOffset + burgers.length) % burgers.length;
+  const handleNext = () => {
+    if (flickityRef.current) flickityRef.current.next();
   };
 
   return (
-    <div className="flex justify-center items-center space-x-6 py-10 relative overflow-hidden">
-      {/* Left */}
-      <div className="flex space-x-4 w-1/4">
-        {[getBurgerIndex(-2), getBurgerIndex(-1)].map((index) => (
-          <div
-            key={index}
-            className={`flex flex-col items-center transform scale-75 transition-transform duration-300 ${
-              isAnimating && direction === "right" ? "translate-x-10" : ""
-            }`}
-          >
-            <img
-              src={burgers[index].image}
-              alt={burgers[index].name}
-              className="w-32 h-32 object-cover rounded-lg mb-2"
-            />
-            <h3 className="text-md font-semibold">{burgers[index].name}</h3>
-            <p className="text-gray-600 text-center mt-1">
-              {burgers[index].description}
-            </p>
-            <span className="text-red-500 font-bold mt-1">
-              {burgers[index].price}
-            </span>
-          </div>
-        ))}
-      </div>
-      <button
-        onClick={handlePrev}
-        className="border-2 rounded-full hover:border-red-500 text-gray-500 hover:text-red-500 transition duration-300"
-        disabled={isAnimating}
-      >
-        <FiChevronLeft size={30} />
-      </button>
-
-      {/* Main Center Burger */}
-      <div
-        className={`flex flex-col items-center w-1/4 transform transition-transform duration-300 ${
-          isAnimating
-            ? direction === "right"
-              ? "scale-75 translate-x-20"
-              : "scale-75 -translate-x-20"
-            : "scale-100"
-        } `}
-      >
-        <img
-          src={burgers[currentBurger].image}
-          alt={burgers[currentBurger].name}
-          className="w-52 h-52 object-cover rounded-lg mb-2"
-        />
-        <h3 className="text-xl font-bold">{burgers[currentBurger].name}</h3>
-        <p className="text-gray-600 text-center mt-1">
-          {burgers[currentBurger].description}
-        </p>
-        <span className="text-red-500 font-bold mt-1 mb-2 text-lg">
-          {burgers[currentBurger].price}
-        </span>
-        <button className="border-2 px-6 py-2 rounded-full bg-red-500 text-white">
-          Order
+    <div className="flex flex-col items-center py-10">
+      <div className="flex space-x-4 justify-center mb-4">
+        <button
+          onClick={handlePrev}
+          aria-label="Previous Burger"
+          className="border-2 rounded-full p-2 hover:border-red-500 text-gray-500 hover:text-red-500 transition duration-300"
+        >
+          <FiChevronLeft size={30} />
+        </button>
+        <button
+          onClick={handleNext}
+          aria-label="Next Burger"
+          className="border-2 rounded-full p-2 hover:border-red-500 text-gray-500 hover:text-red-500 transition duration-300"
+        >
+          <FiChevronRight size={30} />
         </button>
       </div>
-      <button
-        onClick={handleNext}
-        className="border-2 rounded-full hover:border-red-500 text-gray-500 hover:text-red-500 transition duration-300"
-        disabled={isAnimating}
+      <Flickity
+        flickityRef={(ref) => (flickityRef.current = ref)}
+        options={flickityOptions}
+        className="w-full"
+        reloadOnUpdate
+        static
       >
-        <FiChevronRight size={30} />
-      </button>
-
-      {/*Right*/}
-      <div className="flex space-x-4 w-1/4">
-        {[getBurgerIndex(1), getBurgerIndex(2)].map((index) => (
+        {burgers.map((burger, index) => (
           <div
             key={index}
-            className={`flex flex-col items-center transform scale-75 transition-transform duration-300 ${
-              isAnimating && direction === "left" ? "-translate-x-10" : ""
-            }`}
+            className="carousel-cell mx-2 flex flex-col items-center text-center transition-transform duration-300"
+            style={{
+              width: "20%",
+            }}
           >
             <img
-              src={burgers[index].image}
-              alt={burgers[index].name}
+              src={burger.image}
+              alt={burger.name}
               className="w-32 h-32 object-cover rounded-lg mb-2"
             />
-            <h3 className="text-md font-semibold">{burgers[index].name}</h3>
-            <p className="text-gray-600 text-center mt-1">
-              {burgers[index].description}
-            </p>
-            <span className="text-red-500 font-bold mt-1">
-              {burgers[index].price}
+            <h3 className="text-md font-bold">{burger.name}</h3>
+            <p className="text-gray-600 mt-1">{burger.description}</p>
+            <span className="text-red-500 font-bold mt-1 mb-2 text-lg">
+              {burger.price}
             </span>
+            <button className="border-2 px-6 py-2 rounded-full bg-red-500 text-white transition hover:bg-red-600">
+              Order
+            </button>
           </div>
         ))}
-      </div>
+      </Flickity>
     </div>
   );
 };
