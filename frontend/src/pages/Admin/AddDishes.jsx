@@ -19,7 +19,13 @@ const ManageDishes = () => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    setNewProduct({ ...newProduct, image: file });
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewProduct({ ...newProduct, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const toggleAvailability = () => {
@@ -28,19 +34,24 @@ const ManageDishes = () => {
 
   const { createProduct } = useProductStore();
 
+  const validateForm = () => {
+    const { name, category, description, price, image } = newProduct;
+    if (!name || !category || !description || !price || !image) {
+      toast.error("Please provide all fields", { duration: 4000 });
+      return false;
+    }
+    return true;
+  };
+
   const handleAddProduct = async (e) => {
     e.preventDefault();
-    console.log("Product being submitted:", newProduct);
-    const { success, message } = await createProduct(newProduct);
+    if (!validateForm()) return;
 
+    const { success, message } = await createProduct(newProduct);
     if (!success) {
-      toast.error(`Error: ${message}`, {
-        duration: 5000,
-      });
+      toast.error(`Error: ${message}`, { duration: 5000 });
     } else {
-      toast.success(`Success: ${message}`, {
-        duration: 5000,
-      });
+      toast.success(`Success: ${message}`, { duration: 5000 });
       setNewProduct({
         name: "",
         category: "",
@@ -49,9 +60,9 @@ const ManageDishes = () => {
         image: "",
         isAvailable: true,
       });
-      console.log("Product reset after submission:", newProduct);
     }
   };
+
   return (
     <div className="flex justify-center bg-gray-100">
       <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
@@ -81,6 +92,7 @@ const ManageDishes = () => {
               setNewProduct({ ...newProduct, category: e.target.value })
             }
           >
+            <option value="">Select Category</option>
             <option value="Burger">Burger</option>
             <option value="Pizza">Pizza</option>
             <option value="Salad">Salad</option>
@@ -122,7 +134,7 @@ const ManageDishes = () => {
             {newProduct.image && (
               <div className="flex items-center space-x-2">
                 <span className="text-gray-600 text-sm">
-                  {newProduct.image.name}
+                  {newProduct.image.substring(0, 30) + "..."}
                 </span>
                 <button
                   type="button"

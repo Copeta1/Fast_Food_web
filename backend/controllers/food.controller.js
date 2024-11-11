@@ -3,7 +3,9 @@ import Food from "../models/food.model.js";
 // GET - Dohvaćanje svih vrsta hrane
 export const getFood = async (req, res) => {
   try {
-    const foods = await Food.findOne({});
+    const category = req.query.category;
+    const query = category ? { category } : {};
+    const foods = await Food.find(query);
     res.json(foods);
   } catch (error) {
     console.error("Error fetching food items:", error.message);

@@ -1,3 +1,4 @@
+// Menu.js
 import { useState } from "react";
 import Burgers from "./FoodType/Burgers";
 import Pizzas from "./FoodType/Pizzas";
