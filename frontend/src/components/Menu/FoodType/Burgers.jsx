@@ -1,14 +1,15 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import useFetchCategory from "../../../hooks/useFetchCategory";
 
 const Burgers = () => {
   const { items, loading, error } = useFetchCategory("Burger");
-
   const scrollRef = useRef(null);
+
+  const [orderCounts, setOrderCounts] = useState({});
 
   const scrollTo = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = 4 * 300; // 3 items per scroll, each card is about 300px wide
+      const scrollAmount = 4 * 300;
       if (direction === "left") {
         scrollRef.current.scrollLeft -= scrollAmount;
       } else if (direction === "right") {
@@ -16,12 +17,33 @@ const Burgers = () => {
       }
     }
   };
+
+  const handleOrderClick = (id) => {
+    setOrderCounts((prevCounts) => ({
+      ...prevCounts,
+      [id]: prevCounts[id] ? prevCounts[id] : 1,
+    }));
+  };
+
+  const incrementCount = (id) => {
+    setOrderCounts((prevCounts) => ({
+      ...prevCounts,
+      [id]: prevCounts[id] + 1,
+    }));
+  };
+
+  const decrementCount = (id) => {
+    setOrderCounts((prevCounts) => ({
+      ...prevCounts,
+      [id]: prevCounts[id] > 1 ? prevCounts[id] - 1 : 0,
+    }));
+  };
+
   if (loading) return <p>Loading burgers...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="relative">
-      {/* Left Arrow */}
       <button
         onClick={() => scrollTo("left")}
         className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10"
@@ -44,19 +66,43 @@ const Burgers = () => {
                 alt={item.name}
                 className="w-full h-32 object-cover rounded-lg mb-4"
               />
-              <h3 className="text-lg font-bold">{item.name}</h3>
-              <p className="text-gray-600 mt-2">{item.description}</p>
-              <p className="text-red-500 font-semibold mt-2">{item.price}€</p>
+              <h3 className="text-lg font-bold text-center">{item.name}</h3>
+              <p className="text-gray-600 mt-2 text-center">
+                {item.description}
+              </p>
+              <p className="text-red-500 font-semibold mt-2 text-center">
+                {item.price}€
+              </p>
 
-              <button className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200">
-                Order Now
-              </button>
+              {orderCounts[item._id] ? (
+                <div className="flex items-center justify-center mt-4">
+                  <button
+                    onClick={() => decrementCount(item._id)}
+                    className="bg-gray-300 text-gray-800 p-2 rounded-l-lg"
+                  >
+                    -
+                  </button>
+                  <span className="px-4">{orderCounts[item._id]}</span>
+                  <button
+                    onClick={() => incrementCount(item._id)}
+                    className="bg-gray-300 text-gray-800 p-2 rounded-r-lg"
+                  >
+                    +
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => handleOrderClick(item._id)}
+                  className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200"
+                >
+                  Order Now
+                </button>
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Right Arrow */}
       <button
         onClick={() => scrollTo("right")}
         className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10"

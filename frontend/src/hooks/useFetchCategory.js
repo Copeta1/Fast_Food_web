@@ -1,4 +1,3 @@
-// hooks/useFetchCategory.js
 import { useState, useEffect } from "react";
 
 const useFetchCategory = (category) => {
