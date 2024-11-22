@@ -9,6 +9,7 @@ import ImageGallery from "./pages/Gallery/ImageGallery";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import Admin from "./pages/Admin/Admin";
 import ProtectedRoute from "./context/ProtectedRoute";
+import Checkout from "./components/Checkout/Checkout";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/imageGallery" element={<ImageGallery />} />
         <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route
           path="/admin"
           element={

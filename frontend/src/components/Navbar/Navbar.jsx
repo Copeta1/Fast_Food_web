@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { LuChefHat } from "react-icons/lu";
 import { RiContactsLine } from "react-icons/ri";
 import { IoImageOutline, IoPeopleOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import { FiChevronDown, FiShoppingCart } from "react-icons/fi";
+import { CartContext } from "../../context/cart";
 
 const Navbar = () => {
   const { authUser, setAuthUser } = useAuthContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { cartItems, removeFromCart } = useContext(CartContext);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("food-user");
     setAuthUser(null);
+  };
+
+  const handlePlaceOrder = () => {
+    // Navigate to the checkout page
+    navigate("/checkout");
   };
 
   return (
@@ -71,7 +80,56 @@ const Navbar = () => {
             {authUser ? (
               <div className="flex items-center space-x-4">
                 <div className="relative">
-                  <FiShoppingCart className="text-2xl text-gray-700 cursor-pointer" />
+                  <button
+                    onClick={() => setIsCartOpen(!isCartOpen)}
+                    className="flex items-center space-x-2 bg-gray-200 p-2 rounded-full focus:outline-none"
+                  >
+                    <FiShoppingCart className="text-2xl text-gray-700" />
+                    <span className="bg-red-500 text-white text-xs px-2 rounded-full">
+                      {cartItems.length}
+                    </span>
+                  </button>
+                  {isCartOpen && (
+                    <div className="absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg py-2 z-50">
+                      {cartItems.length > 0 ? (
+                        <>
+                          {cartItems.map((item) => (
+                            <div
+                              key={item.id}
+                              className="flex justify-between items-center px-4 py-2 border-b"
+                            >
+                              <div>
+                                <h4 className="text-sm font-bold">
+                                  {item.name}
+                                </h4>
+                                <p className="text-xs text-gray-600">
+                                  {item.quantity} × {item.price}€
+                                </p>
+                              </div>
+                              <button
+                                onClick={() => removeFromCart(item.id)}
+                                className="text-red-500 text-xs font-bold"
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          ))}
+                          <div className="px-4 py-2">
+                            <button
+                              onClick={() => handlePlaceOrder()}
+                              className="mt-4 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-200"
+                            >
+                              Place Order
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <p className="text-center text-gray-500">
+                          Cart is empty.
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (

@@ -1,14 +1,15 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import useFetchCategory from "../../../hooks/useFetchCategory";
+import { CartContext } from "../../../context/cart";
 
 const Drinks = () => {
   const { items, loading, error } = useFetchCategory("Drinks");
-
   const scrollRef = useRef(null);
+  const { addToCart } = useContext(CartContext);
 
   const scrollTo = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = 4 * 300; // 3 items per scroll, each card is about 300px wide
+      const scrollAmount = 4 * 300;
       if (direction === "left") {
         scrollRef.current.scrollLeft -= scrollAmount;
       } else if (direction === "right") {
@@ -21,7 +22,6 @@ const Drinks = () => {
 
   return (
     <div className="relative">
-      {/* Left Arrow */}
       <button
         onClick={() => scrollTo("left")}
         className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10"
@@ -48,7 +48,17 @@ const Drinks = () => {
               <p className="text-gray-600 mt-2">{item.description}</p>
               <p className="text-red-500 font-semibold mt-2">{item.price}€</p>
 
-              <button className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200">
+              <button
+                onClick={() =>
+                  addToCart({
+                    id: item._id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: 1,
+                  })
+                }
+                className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200"
+              >
                 Order Now
               </button>
             </div>
@@ -56,7 +66,6 @@ const Drinks = () => {
         </div>
       </div>
 
-      {/* Right Arrow */}
       <button
         onClick={() => scrollTo("right")}
         className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10"

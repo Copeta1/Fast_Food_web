@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { useRef, useContext } from "react";
 import useFetchCategory from "../../../hooks/useFetchCategory";
+import { CartContext } from "../../../context/cart";
 
 const Burgers = () => {
   const { items, loading, error } = useFetchCategory("Burger");
   const scrollRef = useRef(null);
-
-  const [orderCounts, setOrderCounts] = useState({});
+  const { addToCart } = useContext(CartContext);
 
   const scrollTo = (direction) => {
     if (scrollRef.current) {
@@ -17,28 +17,6 @@ const Burgers = () => {
       }
     }
   };
-
-  const handleOrderClick = (id) => {
-    setOrderCounts((prevCounts) => ({
-      ...prevCounts,
-      [id]: prevCounts[id] ? prevCounts[id] : 1,
-    }));
-  };
-
-  const incrementCount = (id) => {
-    setOrderCounts((prevCounts) => ({
-      ...prevCounts,
-      [id]: prevCounts[id] + 1,
-    }));
-  };
-
-  const decrementCount = (id) => {
-    setOrderCounts((prevCounts) => ({
-      ...prevCounts,
-      [id]: prevCounts[id] > 1 ? prevCounts[id] - 1 : 0,
-    }));
-  };
-
   if (loading) return <p>Loading burgers...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -74,30 +52,19 @@ const Burgers = () => {
                 {item.price}€
               </p>
 
-              {orderCounts[item._id] ? (
-                <div className="flex items-center justify-center mt-4">
-                  <button
-                    onClick={() => decrementCount(item._id)}
-                    className="bg-gray-300 text-gray-800 p-2 rounded-l-lg"
-                  >
-                    -
-                  </button>
-                  <span className="px-4">{orderCounts[item._id]}</span>
-                  <button
-                    onClick={() => incrementCount(item._id)}
-                    className="bg-gray-300 text-gray-800 p-2 rounded-r-lg"
-                  >
-                    +
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => handleOrderClick(item._id)}
-                  className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200"
-                >
-                  Order Now
-                </button>
-              )}
+              <button
+                onClick={() =>
+                  addToCart({
+                    id: item._id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: 1,
+                  })
+                }
+                className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200"
+              >
+                Order Now
+              </button>
             </div>
           ))}
         </div>
