@@ -1,8 +1,8 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import { CartContext } from "../../context/cart";
 import { toast } from "react-hot-toast";
-import useOrder from "../../hooks/useOrder"; // Import the custom hook
+import useOrder from "../../hooks/useOrder";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +13,42 @@ const Checkout = () => {
     phone: "",
   });
 
+  const [loadingUser, setLoadingUser] = useState(true);
   const { cartItems } = useContext(CartContext);
-  const { placeOrder, loading } = useOrder(); // Use the custom hook
+  const { placeOrder, loading } = useOrder();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch("/api/auth/me", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+
+        const data = await response.json();
+
+        setFormData((prev) => ({
+          ...prev,
+          firstName: data.firstName || "",
+          lastName: data.lastName || "",
+          email: data.email || "",
+        }));
+      } catch {
+        toast.error("Failed to load user information.");
+      } finally {
+        setLoadingUser(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +60,6 @@ const Checkout = () => {
 
     const { firstName, lastName, address, email, phone } = formData;
 
-    // Basic Validation
     if (!firstName || !lastName || !address || !email || !phone) {
       toast.error("Please fill out all fields.");
       return;
@@ -42,7 +75,6 @@ const Checkout = () => {
       return;
     }
 
-    // Prepare order data
     const orderData = {
       customer: formData,
       items: cartItems,
@@ -52,7 +84,6 @@ const Checkout = () => {
       ),
     };
 
-    // Place the order using the hook
     const result = await placeOrder(orderData);
 
     if (result) {
@@ -65,6 +96,10 @@ const Checkout = () => {
       });
     }
   };
+
+  if (loadingUser) {
+    return <p>Loading user data...</p>;
+  }
 
   return (
     <>
@@ -104,12 +139,12 @@ const Checkout = () => {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">
-                Address
+                Email
               </label>
               <input
-                type="text"
-                name="address"
-                value={formData.address}
+                type="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
                 className="w-full p-2 border rounded"
                 disabled={loading}
@@ -117,12 +152,12 @@ const Checkout = () => {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">
-                Email
+                Address
               </label>
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="text"
+                name="address"
+                value={formData.address}
                 onChange={handleChange}
                 className="w-full p-2 border rounded"
                 disabled={loading}
