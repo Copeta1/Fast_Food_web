@@ -3,6 +3,7 @@ import Navbar from "../Navbar/Navbar";
 import { CartContext } from "../../context/cart";
 import { toast } from "react-hot-toast";
 import useOrder from "../../hooks/useOrder";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
@@ -14,8 +15,9 @@ const Checkout = () => {
   });
 
   const [loadingUser, setLoadingUser] = useState(true);
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, clearCart } = useContext(CartContext);
   const { placeOrder, loading } = useOrder();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -87,6 +89,7 @@ const Checkout = () => {
     const result = await placeOrder(orderData);
 
     if (result) {
+      toast.success("Order placed successfully!");
       setFormData({
         firstName: "",
         lastName: "",
@@ -94,6 +97,8 @@ const Checkout = () => {
         email: "",
         phone: "",
       });
+      clearCart();
+      navigate("/");
     }
   };
 
