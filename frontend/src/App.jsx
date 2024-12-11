@@ -3,6 +3,7 @@ import "./App.css";
 import Home from "./pages/Home/Home";
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
+import Profile from "./pages/Profile/Profile";
 import { Toaster } from "react-hot-toast";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import ImageGallery from "./pages/Gallery/ImageGallery";
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/imageGallery" element={<ImageGallery />} />
         <Route path="/aboutUs" element={<AboutUs />} />
