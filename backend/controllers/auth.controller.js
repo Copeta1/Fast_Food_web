@@ -142,3 +142,39 @@ export const getUserProfile = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+
+    // Validate required fields
+    if (!firstName || !lastName || !email) {
+      return res
+        .status(400)
+        .json({ error: "First name, last name, and email are required." });
+    }
+
+    // Use req.userId (set by authMiddleware) to identify the user
+    const userId = req.userId;
+
+    const updateData = { firstName, lastName, email };
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Profile updated successfully", user: updatedUser });
+  } catch (error) {
+    console.error("Error in updateProfile:", error.message);
+    res.status(500).json({ error: "Failed to update profile." });
+  }
+};
