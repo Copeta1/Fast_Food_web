@@ -23,6 +23,7 @@ const Profile = () => {
 
       <div className="flex flex-glow">
         <aside className="w-64 bg-gray-800 text-white min-h-screen py-5">
+          <h1 className="text-2xl font-bold mb-6 px-16">About Me</h1>
           <ul className="space-y-4 px-4">
             <li>
               <button

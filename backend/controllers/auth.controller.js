@@ -147,14 +147,12 @@ export const updateProfile = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
-    // Validate required fields
     if (!firstName || !lastName || !email) {
       return res
         .status(400)
         .json({ error: "First name, last name, and email are required." });
     }
 
-    // Use req.userId (set by authMiddleware) to identify the user
     const userId = req.userId;
 
     const updateData = { firstName, lastName, email };
