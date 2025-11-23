@@ -5,12 +5,19 @@ const useFetchCategory = (category) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(`/api/food?category=${category}`);
+        const response = await fetch(
+          `${API_BASE_URL}/api/food?category=${category}`
+        );
         if (!response.ok) {
-          throw new Error("Failed to fetch data");
+          const errorText = await response.text();
+          throw new Error(
+            `Failed to fetch data: ${response.status} ${response.statusText}. Response: ${errorText}`
+          );
         }
         const data = await response.json();
         setItems(data);

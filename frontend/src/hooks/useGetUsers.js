@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
+
 const useGetUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,8 +11,13 @@ const useGetUsers = () => {
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        const response = await fetch("/api/auth"); // Adjust URL if necessary
-        if (!response.ok) throw new Error("Failed to fetch users");
+        const response = await fetch(`${API_BASE_URL}/api/auth`);
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(
+            `Failed to fetch users: ${response.status} ${response.statusText}. Response: ${errorText}`
+          );
+        }
 
         const data = await response.json();
         const formattedUsers = data.map((user) => ({
