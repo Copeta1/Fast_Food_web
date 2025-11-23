@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import ManageDishes from "./ManageDishes";
 import Orders from "./Orders";
 import Permissions from "./Permissions";
-import AddDishes from "./addDishes";
+import AddDishes from "./AddDishes";
 
 const Admin = () => {
   const [selectedMenu, setSelectedMenu] = useState("manageDishes");
