@@ -3,7 +3,7 @@ import "./App.css";
 import Home from "./pages/Home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
 import Signup from "./pages/signup/Signup.jsx";
-import Profile from "./pages/Profile/Profile.jsx";
+import Profile from "./pages/profile/Profile.jsx";
 import { Toaster } from "react-hot-toast";
 import ContactUs from "./pages/ContactUs/ContactUs.jsx";
 import ImageGallery from "./pages/Gallery/ImageGallery.jsx";
