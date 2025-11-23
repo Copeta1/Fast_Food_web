@@ -9,7 +9,7 @@ import ContactUs from "./pages/ContactUs/ContactUs.jsx";
 import ImageGallery from "./pages/Gallery/ImageGallery.jsx";
 import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
-import ProtectedRoute from "./context/ProtectedRoute.jsx";
+import ProtectedRoute from "./context/ProtectedRoute.js";
 import Checkout from "./components/Checkout/Checkout.jsx";
 
 function App() {
