@@ -1,6 +1,6 @@
 import { useState } from "react";
 import YourOrders from "./YourOrders";
-import YourProfile from "./yourProfile";
+import YourProfile from "./YourProfile";
 import Navbar from "../../components/Navbar/Navbar";
 
 const Profile = () => {
