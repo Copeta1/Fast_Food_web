@@ -1,16 +1,16 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Home from "./pages/Home/Home";
-import Login from "./pages/login/Login";
-import Signup from "./pages/signup/Signup";
-import Profile from "./pages/Profile/Profile";
+import Home from "./pages/Home/Home.jsx";
+import Login from "./pages/login/Login.jsx";
+import Signup from "./pages/signup/Signup.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
 import { Toaster } from "react-hot-toast";
-import ContactUs from "./pages/ContactUs/ContactUs";
-import ImageGallery from "./pages/Gallery/ImageGallery";
-import AboutUs from "./pages/AboutUs/AboutUs";
-import Admin from "./pages/Admin/Admin";
-import ProtectedRoute from "./context/ProtectedRoute";
-import Checkout from "./components/Checkout/Checkout";
+import ContactUs from "./pages/ContactUs/ContactUs.jsx";
+import ImageGallery from "./pages/Gallery/ImageGallery.jsx";
+import AboutUs from "./pages/AboutUs/AboutUs.jsx";
+import Admin from "./pages/Admin/Admin.jsx";
+import ProtectedRoute from "./context/ProtectedRoute.jsx";
+import Checkout from "./components/Checkout/Checkout.jsx";
 
 function App() {
   return (
